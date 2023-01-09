@@ -22,21 +22,16 @@ public class Basics : MonoBehaviour
     public string nnk = "Nikitos16";
     public bool tf = true;
 
-    void Start()
+    private void Awake() {
+        Debug.Log("Awake");
+    }
+
+    private void Start()
     {
-        Debug.Log(two);
-        Debug.Log( five);
-        five = five + 8;
-        Debug.Log(five);
-        Debug.Log(nnk);
-        nnk = "Bhdn";
-        Debug.Log(nnk);
-        
-        Debug.Log(nnk = "3+2");
-
-        Debug.Log(tf = false);
-
-        Info();
+        if(tf)
+            for(int i = 0; i < 100; i++){
+                Debug.Log("Start" + i);
+            }
     }
 
     void Info()
@@ -48,6 +43,22 @@ public class Basics : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        Debug.Log("Update");
+    }
+
+    private void LateUpdate() {
+        Debug.Log("Late Update");
+    }
+
+    private void FixedUpdate() {
+        Debug.Log("Fixed Update");
+    }
+
+    private void OnEnable() {
+        Debug.Log("On Enable");
+    }
+
+    private void OnDestroy() {
+        Debug.Log("On Destroy");
     }
 }
