@@ -5,60 +5,38 @@ using System;
 
 public class Basics : MonoBehaviour
 {
-    
-    
-    [SerializeField] private float nums;
+    public GameObject[] objs = new GameObject[3];
+    public Transform target;
+    public BoxCollider box;
+    public Light _light;
 
-    [NonSerialized] public int _num = 10;
+    public float speed = 2f, rotateSpeed = 10f;
 
-    public int[] numbers = new int[6];
+    public Transform[] transfroms = new Transform[3];
 
-    public List<string> words = new List<string>();
-
-    public string word;
-    public int two = 2;
-    public int five = 3; //   3+2
-
-    public string nnk = "Nikitos16";
-    public bool tf = true;
-
-    private void Awake() {
-        Debug.Log("Awake");
+    private void Start() {
+        // obj.SetActive(false)
+        //obj.GetComponent<Transform>().position = new Vector3(0, 10, 10);
+        // target.position = new Vector3(0, 10, 10);
+        // _light.intensity = 0.5f;
+        // for (int i = 0; i < objs.Length; i++)
+        // {
+        //     objs[i].SetActive(false);
+        // }
     }
 
-    private void Start()
-    {
-        if(tf)
-            for(int i = 0; i < 100; i++){
-                Debug.Log("Start" + i);
+    private void Update() {
+        for (int i = 0; i < transfroms.Length; i++)
+        {
+            if(transfroms[i] != null){
+                transfroms[i].Translate(new Vector3(1, 0, 0) * speed * Time.deltaTime);
+                transfroms[i].Rotate(new Vector3(-1, 0, 0) * rotateSpeed * Time.deltaTime);
+                float posX = transfroms[i].position.x;
+                if(posX > 10f && transfroms[i].gameObject.name == "Sphere"){
+                    // Destroy(transfroms[i].gameObject);
+                    transfroms[i].gameObject.SetActive(false);
+                }
             }
-    }
-
-    void Info()
-    {
-        if(_num == 10)
-            Debug.Log(word + _num);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        Debug.Log("Update");
-    }
-
-    private void LateUpdate() {
-        Debug.Log("Late Update");
-    }
-
-    private void FixedUpdate() {
-        Debug.Log("Fixed Update");
-    }
-
-    private void OnEnable() {
-        Debug.Log("On Enable");
-    }
-
-    private void OnDestroy() {
-        Debug.Log("On Destroy");
+        }
     }
 }
