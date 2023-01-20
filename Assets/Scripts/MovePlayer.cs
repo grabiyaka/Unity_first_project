@@ -4,28 +4,51 @@ using UnityEngine;
 
 public class MovePlayer : MonoBehaviour
 {
-    public float speed = 5f;
+    public float vSpeed = 150f, hSpeed = 300f, _thrust = 1000f;
+
+    private Rigidbody _rb;
 
     private void Awake() {
-
+        _rb = GetComponent<Rigidbody>();
     }
 
-    void Update()
-    {
-        // if (Input.GetKey(KeyCode.D)){
-        //     transform.Translate(new Vector3(1, 0, 0) * speed * Time.deltaTime);
-        // } else if(Input.GetKey(KeyCode.A)){
-        //     transform.Translate(new Vector3(-1, 0, 0) * speed * Time.deltaTime);
-        // } else if(Input.GetKey(KeyCode.W)){
-        //     transform.Translate(new Vector3(0, 1, 0) * speed * Time.deltaTime);
-        // } else if(Input.GetKey(KeyCode.S)){
-        //     transform.Translate(new Vector3(0, -1, 0) * speed * Time.deltaTime);
-        // }
+    private void FixedUpdate() {
+        float h = Input.GetAxis("Horizontal") * hSpeed * Time.fixedDeltaTime;
+        float v = Input.GetAxis("Vertical") * vSpeed * Time.fixedDeltaTime;
 
-        float v = Input.GetAxis("Vertical");
-        transform.Translate(new Vector3(0, 1, 0) * speed * Time.deltaTime * v);
+        _rb.velocity = transform.TransformDirection(new Vector3(h, _rb.velocity.y , v));
+    }
 
-        float h = Input.GetAxis("Horizontal");
-        transform.Translate(new Vector3(1, 0, 0) * speed * Time.deltaTime * h);
+    private void OnCollisionEnter(Collision other) {
+        if (other.gameObject.name == "Block")
+        {
+            _rb.AddForce(new Vector3(0, 1, 0) * _thrust);
+        } 
+    }
+
+    private void OnCollisionStay(Collision other) {
+        // Debug.Log("Collide");
+    }
+
+    private void OnCollisionExit(Collision other) {
+        
+    }
+
+    private void OnTriggerEnter(Collider other) {
+        if(other.gameObject.name == "TriggerMain"){
+            Debug.Log("Trigger Correct");
+        }
+    }
+
+    private void OnTriggerStay(Collider other) {
+        if(other.gameObject.name == "TriggerMain"){
+            Debug.Log("Trigger Stay");
+        }
+    }
+
+    private void OnTriggerExit(Collider other) {
+        if(other.gameObject.name == "TriggerMain"){
+            gameObject.SetActive(false);
+        }
     }
 }
